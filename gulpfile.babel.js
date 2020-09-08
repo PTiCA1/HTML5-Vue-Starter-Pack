@@ -72,7 +72,7 @@ export const styles = async () => {
   return src(`${sources.styles}`)
     .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
     .pipe(sassGlob())
-    .pipe(sass({ noCache: true }).on("error", sass.logError))
+    .pipe(sass({ noCache: true, includePaths: ['node_modules'] }).on("error", sass.logError))
     .pipe(gulpif(PRODUCTION, postcss([autoprefixer, cssnano])))
     .pipe(gulpif(!PRODUCTION, postcss([autoprefixer])))
     .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
