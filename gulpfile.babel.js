@@ -32,7 +32,7 @@ const rollup = require('rollup');
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from "rollup-plugin-commonjs";
 import babel from 'rollup-plugin-babel';
-import minify from 'rollup-plugin-babel-minify';
+import { terser } from "rollup-plugin-terser";
 import replace from 'rollup-plugin-replace';
 import vue from 'rollup-plugin-vue';
 import strip from 'rollup-plugin-strip';
@@ -165,7 +165,7 @@ export const scripts = async () => {
         exclude: 'node_modules/**',
         runtimeHelpers: true,
       }),
-      PRODUCTION ? minify({ comments: false, sourceMap: false }) : '',
+      PRODUCTION ? terser({ output: { comments: false } }) : '',
       PRODUCTION ? strip({ debugger: true, sourceMap: false }) : ''
     ]
   });
