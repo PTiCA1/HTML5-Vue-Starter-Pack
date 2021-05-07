@@ -89,7 +89,7 @@ export const images = () => {
 }
 
 // Sprites
-export const sprites = () => {
+export const sprites = async () => {
   const spriteData = src(`${sources.sprites}`).pipe(spritesmith({
     padding: 10,
     imgName: '../images/sprites.png',
