@@ -207,10 +207,10 @@ export const serve = async () => {
     server: "./www",
   });
 };
-export const reload = async () => {
+export const reload = () => {
   server.reload(); // for reaload page
 };
-export const stream = async () => {
+export const stream = () => {
   server.stream(); // for inject changes
 };
 
