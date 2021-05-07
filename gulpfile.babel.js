@@ -68,7 +68,7 @@ const PRODUCTION = !!argv.production;
 // ----
 
 // Styles
-export const styles = async () => {
+export const styles = () => {
   return src(`${sources.styles}`)
     .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
     .pipe(sassGlob())
@@ -81,7 +81,7 @@ export const styles = async () => {
 }
 
 // Images
-export const images = async () => {
+export const images = () => {
   return src(`${sources.images}`)
     .pipe(gulpif(PRODUCTION, imagemin())) //  Problem? run: npm rebuild jpegtran-bin
     .pipe(dest('www/img'))
@@ -89,7 +89,7 @@ export const images = async () => {
 }
 
 // Sprites
-export const sprites = async () => {
+export const sprites = () => {
   const spriteData = src(`${sources.sprites}`).pipe(spritesmith({
     padding: 10,
     imgName: '../images/sprites.png',
@@ -116,7 +116,7 @@ export const sprites = async () => {
 }
 
 // iconFonts
-export const icons = async () => {
+export const icons = () => {
   return src(`${sources.icons}`)
     .pipe(iconfontCss({
       fontName: fontName,
@@ -134,7 +134,7 @@ export const icons = async () => {
 }
 
 // Images
-export const fonts = async () => {
+export const fonts = () => {
   return src(`${sources.fonts}`)
     .pipe(dest('www/fonts'))
     .pipe(server.stream());
@@ -189,7 +189,7 @@ export const clean = async () => {
 };
 
 // Watch Task
-export const watchForChanges = async () => {
+export const watchForChanges = () => {
   watch(`${dirs.src}/styles/**/*.scss`, series(styles, stream));
   watch(`${sources.images}`, series(images, reload));
   watch(`${sources.sprites}`, series(sprites));
@@ -202,6 +202,7 @@ export const watchForChanges = async () => {
 // Server & Reload
 const server = browserSync.create();
 export const serve = async () => {
+  watchForChanges();
   server.init({
     server: "./www",
   });
@@ -214,7 +215,7 @@ export const stream = async () => {
 };
 
 // Development Task
-export const dev = series(clean, sprites, icons, parallel(styles, images, scripts, fonts), serve, watchForChanges);
+export const dev = series(clean, sprites, icons, parallel(styles, images, scripts, fonts), serve);
 
 // Production Task
 export const build = series(clean, sprites, icons, parallel(styles, images, scripts, fonts));
