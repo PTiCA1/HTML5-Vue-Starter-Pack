@@ -29,13 +29,13 @@ const fontName = 'HSPFont';
 // Scripts
 // import { rollup } from 'rollup';
 const rollup = require('rollup');
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from "rollup-plugin-commonjs";
-import babel from 'rollup-plugin-babel';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from "@rollup/plugin-commonjs";
+import { babel } from '@rollup/plugin-babel';
 import { terser } from "rollup-plugin-terser";
-import replace from 'rollup-plugin-replace';
+import replace from '@rollup/plugin-replace';
 import vue from 'rollup-plugin-vue';
-import strip from 'rollup-plugin-strip';
+import strip from '@rollup/plugin-strip';
 
 // Dev
 import browserSync from "browser-sync";
@@ -157,13 +157,14 @@ export const scripts = async () => {
         },
       }),
       replace({
-        'process.env.NODE_ENV': JSON.stringify( PRODUCTION ? 'production' : 'development' )
+        'process.env.NODE_ENV': JSON.stringify( PRODUCTION ? 'production' : 'development' ),
+        'preventAssignment': true
       }),
       resolve(),
       commonjs(),
       babel({
         exclude: 'node_modules/**',
-        runtimeHelpers: true,
+        babelHelpers: 'runtime' // https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers
       }),
       PRODUCTION ? terser({ output: { comments: false } }) : '',
       PRODUCTION ? strip({ debugger: true, sourceMap: false }) : ''
