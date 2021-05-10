@@ -31,11 +31,12 @@ const fontName = 'HSPFont';
 const rollup = require('rollup');
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from "@rollup/plugin-commonjs";
-import { babel } from '@rollup/plugin-babel';
+import babel from '@rollup/plugin-babel';
 import { terser } from "rollup-plugin-terser";
 import replace from '@rollup/plugin-replace';
 import vue from 'rollup-plugin-vue';
 import strip from '@rollup/plugin-strip';
+import scss from 'rollup-plugin-scss'
 
 // Dev
 import browserSync from "browser-sync";
@@ -147,18 +148,22 @@ export const scripts = async () => {
     plugins: [
       vue({
         needMap: PRODUCTION ? false : true,
-        style: {
-          postcssPlugins: PRODUCTION ? [autoprefixer, cssnano] : [autoprefixer],
-          // preprocessOptions: {
-          //   scss: {
-          //     includePaths: ['node_modules']
-          //   }
-          // }
-        },
+        // style: {
+        //   postcssPlugins: PRODUCTION ? [autoprefixer, cssnano] : [autoprefixer],
+        //   // preprocessOptions: {
+        //   //   scss: {
+        //   //     includePaths: ['node_modules']
+        //   //   }
+        //   // }
+        // },
       }),
       replace({
         'process.env.NODE_ENV': JSON.stringify( PRODUCTION ? 'production' : 'development' ),
         'preventAssignment': true
+      }),
+      scss({
+        // output: false,
+        output: './www/css/bundle.esm.css',
       }),
       resolve(),
       commonjs(),
@@ -172,7 +177,7 @@ export const scripts = async () => {
   });
 
   await bundle.write({
-    file: './www/js/bundle.js',
+    file: './www/js/bundle.esm.js',
     format: 'esm',
     sourcemap: PRODUCTION ? false : true
   });
@@ -202,21 +207,22 @@ export const watchForChanges = () => {
 
 // Server & Reload
 const server = browserSync.create();
-export const serve = async () => {
-  watchForChanges();
+export const serve = async (done) => {
   server.init({
     server: "./www",
   });
+  done();
 };
-export const reload = () => {
+export const reload = (done) => {
   server.reload(); // for reaload page
+  done();
 };
 export const stream = () => {
   server.stream(); // for inject changes
 };
 
 // Development Task
-export const dev = series(clean, sprites, icons, parallel(styles, images, scripts, fonts), serve);
+export const dev = series(clean, sprites, icons, parallel(styles, images, scripts, fonts, serve, watchForChanges));
 
 // Production Task
 export const build = series(clean, sprites, icons, parallel(styles, images, scripts, fonts));
