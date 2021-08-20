@@ -8,7 +8,7 @@ Starter pack for front-end developers. SCSS, Bootstrap, Gulp4, NPM, YARN, Vue.js
 ```
 git clone https://github.com/PTiCA1/HTML5-Vue-Starter-Pack.git my-project
 yarn install or npm install
-yarn dev or npm run dev
+yarn dev
 ```
 ### Running development server
 ```
