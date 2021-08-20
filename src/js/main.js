@@ -1,4 +1,10 @@
 import '../../src/css/main.scss';
 
-console.log('main');
-// console.log('main2');
+import { TestModule } from './test/test';
+
+TestModule();
+
+import { createApp } from "vue";
+import App from "./App.vue";
+
+createApp(App).mount("#app");
