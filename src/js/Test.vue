@@ -1,6 +1,6 @@
 <template>
   <div>
-    ahoj svato
+    test element
   </div>
 </template>
 

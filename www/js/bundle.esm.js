@@ -19654,7 +19654,7 @@ function initDev() {
 }
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createElementBlock("div", null, " ahoj svato "))
+  return (openBlock(), createElementBlock("div", null, " test element "))
 }
 
 script$1.render = render;
