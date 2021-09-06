@@ -1,10 +1,14 @@
 import '../../src/css/main.scss';
 
-import { TestModule } from './test/test';
+console.log('main');
+// console.log('main2');
 
-TestModule();
+// https://github.com/kutia-software-company/vue3-starter
+// https://github.com/vuejs/vue-next/tree/master/packages/vue#bundler-build-feature-flags
+import { createApp } from 'vue/dist/vue.esm-bundler.js';
+import App from './App.vue';
+// import routes from './routes';
+// import store from './store';
 
-import { createApp } from "vue";
-import App from "./App.vue";
-
-createApp(App).mount("#app");
+// createApp(App).use(store).use(routes).mount('#app');
+createApp(App).mount('#app');

@@ -1,17 +1,12 @@
-// https://codesandbox.io/s/171hk?file=/rollup.config.js:205-212
-
-// Universal
-import path from "path";
+import path from 'path'
+import del from 'rollup-plugin-delete'
 
 // JS
-import { terser } from 'rollup-plugin-terser';
-import { babel } from '@rollup/plugin-babel';
-import vuePlugin from 'rollup-plugin-vue';
+import vue from 'rollup-plugin-vue';
 import replace from '@rollup/plugin-replace';
-import commonjs from '@rollup/plugin-commonjs';
-import alias from "@rollup/plugin-alias";
-import nodeResolve  from "@rollup/plugin-node-resolve";
-import typescript from 'rollup-plugin-typescript2';
+import { terser } from 'rollup-plugin-terser';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { babel } from '@rollup/plugin-babel';
 
 // Serve
 import serve from 'rollup-plugin-serve';
@@ -25,60 +20,43 @@ import autoprefixer from 'autoprefixer'
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
 const production = !process.env.ROLLUP_WATCH;
-const projectRoot = path.resolve(__dirname, ".");
 
 export default {
-  input: './src/js/index.ts',
+  input: './src/js/main.js',
   output: {
     file: './www/js/bundle.esm.js',
     format: 'esm',
-    // format: 'cjs',
-    // sourcemap: true
+    sourcemap: !production
   },
   plugins: [
-    typescript(),
-    //  https://github.com/thgh/rollup-plugin-scss
+    del({ targets: [
+      'www/css/*',
+      'www/js/*',
+      'www/img/*'
+    ] }),
+
+    // https://www.npmjs.com/package/rollup-plugin-scss
     scss({
-      processor: () => postcss([autoprefixer()]),
-      // includePaths: [
-      //   path.join(__dirname, '../../node_modules/'),
-      //   'node_modules/'
-      // ],
       output: './www/css/bundle.css',
+      outputStyle: production ? 'compressed' : null,
+      sourceMap: !production,
+      processor: () => postcss([autoprefixer()]),
+      includePaths: [
+        path.join(__dirname, '../../node_modules/'),
+        'node_modules/'
+      ]
     }),
-    alias({
-      '@': __dirname + '/src/main'
+
+    replace({
+      'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' ),
+      'preventAssignment': true
     }),
-    // alias({
-    //   entries: [
-    //     {
-    //       find: "@",
-    //       replacement: `${path.resolve(projectRoot, "src")}`
-    //     }
-    //   ],
-    //   customResolver: resolve({
-    //     extensions: [".js", ".jsx", ".vue"]
-    //   })
-    // }),
-    vuePlugin({
-      target: 'browser',
-      // compileTemplate: true, // Explicitly convert template to render function
-      // defaultLang: { script: 'ts' },
-    }),
+
+    vue(),
+
+    babel({ babelHelpers: 'bundled' }),
+
     nodeResolve(),
-    commonjs(),
-    // babel({
-    //   exclude: 'node_modules/**',
-    //   extensions: ['.js', '.jsx', '.vue'],
-    //   babelHelpers: 'runtime'
-    //   // babelHelpers: 'bundled'
-    // }),
-    // replace({
-    //   // 'include': './src/main.js',
-    //   'preventAssignment': true,
-    //   // 'process.env.NODE_ENV': JSON.stringify( 'production' )
-    //   // 'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' ),
-    // }),
 
     !production && serve({
       contentBase: 'www',

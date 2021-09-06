@@ -1,13 +1,16 @@
 <script>
-  // import Btn from './Atom/Btn.vue';
+  import Test from './Test.vue';
 
   export default {
-    name: 'App',
+    name: 'APP',
     components: {
-      // Btn
+      Test
     },
     mounted() {
-      console.log('ahoj2');
+      console.log('app mounted');
+
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
     }
   }
 </script>
