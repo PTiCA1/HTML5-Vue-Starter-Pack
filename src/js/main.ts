@@ -4,7 +4,7 @@ console.log('main');
 
 // https://github.com/kutia-software-company/vue3-starter
 // https://github.com/vuejs/vue-next/tree/master/packages/vue#bundler-build-feature-flags
-import { createApp } from 'vue/dist/vue.esm-bundler.js';
+import { createApp } from 'vue';
 import App from './App.vue';
 // import routes from './routes';
 // import store from './store';

@@ -3,6 +3,7 @@ import del from 'rollup-plugin-delete'
 
 // JS
 import vue from 'rollup-plugin-vue';
+import alias from '@rollup/plugin-alias';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
@@ -24,7 +25,7 @@ import stylelint from 'rollup-plugin-stylelint';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: './src/js/main.js',
+  input: './src/js/main.ts',
   output: {
     file: './www/js/bundle.esm.js',
     format: 'esm',
@@ -52,6 +53,12 @@ export default {
     stylelint({
       plugins: [
         "stylelint-scss"
+      ]
+    }),
+
+    alias({
+      entries: [
+        { find: 'vue', replacement: 'vue/dist/vue.esm-bundler.js' },
       ]
     }),
 
