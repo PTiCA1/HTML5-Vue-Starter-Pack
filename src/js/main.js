@@ -1,7 +1,6 @@
 import '../../src/css/main.scss';
 
 console.log('main');
-// console.log('main2');
 
 // https://github.com/kutia-software-company/vue3-starter
 // https://github.com/vuejs/vue-next/tree/master/packages/vue#bundler-build-feature-flags

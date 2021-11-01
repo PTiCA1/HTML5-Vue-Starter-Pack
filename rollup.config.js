@@ -4,6 +4,7 @@ import del from 'rollup-plugin-delete'
 // JS
 import vue from 'rollup-plugin-vue';
 import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
@@ -16,6 +17,7 @@ import livereload from 'rollup-plugin-livereload';
 import scss from 'rollup-plugin-scss'
 import postcss from 'postcss'
 import autoprefixer from 'autoprefixer'
+import stylelint from 'rollup-plugin-stylelint';
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
@@ -47,6 +49,12 @@ export default {
       ]
     }),
 
+    stylelint({
+      plugins: [
+        "stylelint-scss"
+      ]
+    }),
+
     replace({
       'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' ),
       'preventAssignment': true
@@ -54,6 +62,7 @@ export default {
 
     vue(),
 
+    resolve(),
     babel({ babelHelpers: 'bundled' }),
 
     nodeResolve(),
