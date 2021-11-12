@@ -13,9 +13,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/js/*"
-      ]
+      "@/*": ["src/scripts/*"],
+      "@@/*": ["src/*"],
     },
     "lib": [
       "esnext",
@@ -25,9 +24,9 @@
     ]
   },
   "include": [
-    "src/js/**/*.ts",
-    "src/js/**/*.tsx",
-    "src/js/**/*.vue",
+    "src/**/*",
+    // "src/scripts/**/*.ts",
+    // "src/scripts/**/*.vue",
   ],
   "exclude": [
     "node_modules"

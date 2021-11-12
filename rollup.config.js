@@ -6,6 +6,7 @@ import vue from 'rollup-plugin-vue';
 import alias from '@rollup/plugin-alias';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
+import strip from '@rollup/plugin-strip';
 import { terser } from 'rollup-plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
@@ -25,7 +26,7 @@ import stylelint from 'rollup-plugin-stylelint';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: './src/js/main.ts',
+  input: './src/scripts/main.ts',
   output: {
     file: './www/js/bundle.esm.js',
     format: 'esm',
@@ -37,7 +38,13 @@ export default {
       'www/js/*',
       'www/img/*'
     ] }),
-
+    alias({
+      entries: [
+        { find: '@', replacement: __dirname + '/src/scripts' },
+        { find: '@@', replacement: __dirname + '/src/' },
+        { find: 'vue', replacement: 'vue/dist/vue.esm-bundler.js' },
+      ]
+    }),
     // https://www.npmjs.com/package/rollup-plugin-scss
     scss({
       output: './www/css/bundle.css',
@@ -49,31 +56,24 @@ export default {
         'node_modules/'
       ]
     }),
-
     stylelint({
       plugins: [
         "stylelint-scss"
       ]
     }),
-
-    alias({
-      entries: [
-        { find: 'vue', replacement: 'vue/dist/vue.esm-bundler.js' },
-      ]
-    }),
-
     replace({
       'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' ),
-      'preventAssignment': true
+      'preventAssignment': true,
+      '__VUE_OPTIONS_API__': true,
+      '__VUE_PROD_DEVTOOLS__': false,
     }),
-
     vue(),
-
     resolve(),
-    babel({ babelHelpers: 'bundled' }),
-
+    babel({
+      babelHelpers: 'bundled' ,
+      exclude: 'node_modules/**'
+    }),
     nodeResolve(),
-
     !production && serve({
       contentBase: 'www',
       host: 'localhost',
@@ -81,8 +81,8 @@ export default {
       open: true,
     }),
     !production && livereload(),
-    // minify, but only in production
-    production && terser()
+    // minify and clean, but only in production
+    production && [terser(), strip()],
   ],
   watch: {
     include: [
