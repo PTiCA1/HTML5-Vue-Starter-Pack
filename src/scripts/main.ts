@@ -1,4 +1,5 @@
 import '@@/styles/main.scss';
+// import '@@/styles/**/*.scss';
 
 // https://github.com/kutia-software-company/vue3-starter
 // https://github.com/vuejs/vue-next/tree/master/packages/vue#bundler-build-feature-flags

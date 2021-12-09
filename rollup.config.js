@@ -48,6 +48,7 @@ export default {
     }),
     // https://www.npmjs.com/package/rollup-plugin-scss
     scss({
+      include: ["/**/*.css", "/**/*.scss", "/**/*.sass"],
       output: './www/css/bundle.css',
       outputStyle: production ? 'compressed' : null,
       sourceMap: !production,
@@ -55,7 +56,8 @@ export default {
       includePaths: [
         path.join(__dirname, '../../node_modules/'),
         'node_modules/'
-      ]
+      ],
+      watch: './src/styles',
     }),
     stylelint({
       plugins: [
@@ -81,14 +83,17 @@ export default {
       port: 3000,
       open: true,
     }),
-    !production && livereload(),
+    !production && livereload({
+      watch: 'www',
+      // watch: 'www/js',
+      // watch: ["www/css/*.css", "www/js/*.js"],
+    }),
     // minify and clean, but only in production
     production && [strip()],
   ],
-  watch: {
-    include: [
-      './src/**/*',
-      './www/**/*'
-    ],
-  }
+  // watch: {
+  //   include: [
+  //     './www/**/*'
+  //   ],
+  // }
 }
