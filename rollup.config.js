@@ -73,7 +73,7 @@ export default {
     vue(),
     resolve(),
     babel({
-      babelHelpers: 'bundled' ,
+      babelHelpers: 'bundled',
       exclude: 'node_modules/**'
     }),
     nodeResolve(),
@@ -85,15 +85,9 @@ export default {
     }),
     !production && livereload({
       watch: 'www',
-      // watch: 'www/js',
-      // watch: ["www/css/*.css", "www/js/*.js"],
+      delay: 200,
     }),
     // minify and clean, but only in production
     production && [strip()],
   ],
-  // watch: {
-  //   include: [
-  //     './www/**/*'
-  //   ],
-  // }
 }
