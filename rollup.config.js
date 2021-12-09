@@ -30,7 +30,8 @@ export default {
   output: {
     file: './www/js/bundle.esm.js',
     format: 'esm',
-    sourcemap: !production
+    sourcemap: !production,
+    plugins: production && [terser()]
   },
   plugins: [
     del({ targets: [
@@ -82,7 +83,7 @@ export default {
     }),
     !production && livereload(),
     // minify and clean, but only in production
-    production && [terser(), strip()],
+    production && [strip()],
   ],
   watch: {
     include: [
