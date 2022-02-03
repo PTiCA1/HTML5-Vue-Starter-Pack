@@ -1,11 +1,11 @@
 <template>
   <div>
-    vue test component 2
+    Test vue component
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'Test'
-  }
+export default {
+  name: 'Test'
+}
 </script>
