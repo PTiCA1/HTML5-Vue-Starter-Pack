@@ -34,7 +34,7 @@ export default {
     plugins: production && [terser()]
   },
   plugins: [
-    del({ targets: [
+    production && del({ targets: [
       'www/css/*',
       'www/js/*',
     ] }),
@@ -84,7 +84,7 @@ export default {
     }),
     !production && livereload({
       watch: 'www',
-      delay: 200,
+      delay: 350,
     }),
     // minify and clean, but only in production
     production && [strip()],

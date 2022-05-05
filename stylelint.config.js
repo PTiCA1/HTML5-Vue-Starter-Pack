@@ -1,6 +1,8 @@
 module.exports = {
   extends: [
     'stylelint-config-standard',
+    'stylelint-config-standard-scss',
+    'stylelint-config-recommended-vue/scss'
   ],
   // https://stylelint.io/user-guide/configuration
   rules: {
