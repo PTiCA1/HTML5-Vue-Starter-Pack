@@ -37,7 +37,6 @@ export default {
     del({ targets: [
       'www/css/*',
       'www/js/*',
-      'www/img/*'
     ] }),
     alias({
       entries: [
