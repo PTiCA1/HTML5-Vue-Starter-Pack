@@ -9,8 +9,13 @@ module.exports = {
     "max-empty-lines": 2,
     "number-leading-zero": "never",
     'no-empty-source': null,
+    'alpha-value-notation': null,
+    "rule-empty-line-before": "always-multi-line",
     "at-rule-no-unknown": [true, {
-      "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
+      "ignoreAtRules": ["function", "if", "each", "include", "mixin", "use"]
+    }],
+    "function-no-unknown": [true, {
+      "ignoreAtRules": ["percentage", "math.div"]
     }]
   },
   syntax: 'scss',
