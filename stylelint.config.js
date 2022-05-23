@@ -15,7 +15,7 @@ module.exports = {
       "ignoreAtRules": ["function", "if", "each", "include", "mixin", "use"]
     }],
     "function-no-unknown": [true, {
-      "ignoreAtRules": ["percentage", "math.div"]
+      "ignoreFunctions": ["percentage", "math.div"]
     }]
   },
   syntax: 'scss',
